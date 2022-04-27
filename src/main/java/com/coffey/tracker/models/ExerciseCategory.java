@@ -1,9 +1,7 @@
 package com.coffey.tracker.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class ExerciseCategory {
@@ -12,6 +10,8 @@ public class ExerciseCategory {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
+    @OneToMany(mappedBy = "exerciseCategory", cascade = CascadeType.ALL)
+    private List<RoutineWeightedExercise> routineWeightedExercises;
 
     public ExerciseCategory() {
     }
@@ -26,5 +26,9 @@ public class ExerciseCategory {
 
     public String getName() {
         return name;
+    }
+
+    public List<RoutineWeightedExercise> getRoutineWeightedExercises() {
+        return routineWeightedExercises;
     }
 }
