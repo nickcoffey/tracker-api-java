@@ -11,7 +11,7 @@ public class ExerciseCategory {
     private Long id;
     private String name;
     @OneToMany(mappedBy = "exerciseCategory", cascade = CascadeType.ALL)
-    private List<RoutineWeightedExercise> routineWeightedExercises;
+    private List<Exercise> exercises;
 
     public ExerciseCategory() {
     }
@@ -28,7 +28,7 @@ public class ExerciseCategory {
         return name;
     }
 
-    public List<RoutineWeightedExercise> getRoutineWeightedExercises() {
-        return routineWeightedExercises;
+    public List<Exercise> getRoutineWeightedExercises() {
+        return exercises;
     }
 }
