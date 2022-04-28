@@ -1,6 +1,7 @@
 package com.coffey.tracker.models;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Routine {
@@ -11,6 +12,8 @@ public class Routine {
     @ManyToOne(optional = false)
     @JoinColumn(name = "program_id", nullable = false, referencedColumnName = "id")
     private Program program;
+    @OneToMany(mappedBy = "routine", cascade = CascadeType.ALL)
+    private List<RoutineExercise> routineExercises;
 
     public Routine() {
     }
@@ -42,5 +45,13 @@ public class Routine {
 
     public void setProgram(Program program) {
         this.program = program;
+    }
+
+    public List<RoutineExercise> getRoutineExercises() {
+        return routineExercises;
+    }
+
+    public void setRoutineExercises(List<RoutineExercise> routineExercises) {
+        this.routineExercises = routineExercises;
     }
 }
