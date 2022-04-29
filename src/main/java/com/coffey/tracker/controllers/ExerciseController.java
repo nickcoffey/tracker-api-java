@@ -32,9 +32,16 @@ public class ExerciseController {
     }
 
     @GetMapping(value = "/by-category")
-    private GetAllExerciseResponse getAllExercisesByProgram(@RequestParam String categoryId) {
+    private GetAllExerciseResponse getAllExercisesByCategory(@RequestParam String categoryId) {
         List<ExerciseResponse> exercises = new ArrayList<>();
         exerciseRepository.findByExerciseCategoryId(Long.parseLong(categoryId)).forEach(exercise -> exercises.add(new ExerciseResponse(exercise)));
+        return new GetAllExerciseResponse(exercises);
+    }
+
+    @GetMapping(value = "/all")
+    private GetAllExerciseResponse getAllExercises() {
+        List<ExerciseResponse> exercises = new ArrayList<>();
+        exerciseRepository.findAll().forEach(exercise -> exercises.add(new ExerciseResponse(exercise)));
         return new GetAllExerciseResponse(exercises);
     }
 
