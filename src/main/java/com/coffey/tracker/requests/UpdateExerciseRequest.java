@@ -1,20 +1,9 @@
-package com.coffey.tracker.responses;
+package com.coffey.tracker.requests;
 
-import com.coffey.tracker.models.Exercise;
-
-public class ExerciseResponse {
+public class UpdateExerciseRequest {
     private Long id;
     private String name;
     private Long categoryId;
-
-    public ExerciseResponse() {
-    }
-
-    public ExerciseResponse(Exercise exercise) {
-        this.id = exercise.getId();
-        this.name = exercise.getName();
-        this.categoryId = exercise.getExerciseCategory().getId();
-    }
 
     public Long getId() {
         return id;

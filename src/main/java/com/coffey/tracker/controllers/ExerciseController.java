@@ -5,9 +5,9 @@ import com.coffey.tracker.models.Exercise;
 import com.coffey.tracker.repositories.ExerciseCategoryRepository;
 import com.coffey.tracker.repositories.ExerciseRepository;
 import com.coffey.tracker.requests.CreateExerciseRequest;
+import com.coffey.tracker.requests.UpdateExerciseRequest;
 import com.coffey.tracker.responses.ExerciseResponse;
 import com.coffey.tracker.responses.GetAllExerciseResponse;
-import com.coffey.tracker.responses.RoutineResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,9 +25,22 @@ public class ExerciseController {
     private ExerciseCategoryRepository exerciseCategoryRepository;
 
     @PostMapping
-    private ExerciseResponse createRoutineWeightedExercise(@RequestBody CreateExerciseRequest createExerciseRequest) {
+    private ExerciseResponse createExercise(@RequestBody CreateExerciseRequest createExerciseRequest) {
         Optional<ExerciseCategory> exerciseCategory = exerciseCategoryRepository.findById(createExerciseRequest.getCategoryId());
         Exercise exercise = exerciseRepository.save(new Exercise(createExerciseRequest.getName(), exerciseCategory.orElse(null)));
+        return new ExerciseResponse(exercise);
+    }
+
+    @PutMapping
+    private ExerciseResponse updateExercise(@RequestBody UpdateExerciseRequest updateExerciseRequest) {
+        Exercise exerciseToUpdate =  exerciseRepository.findById(updateExerciseRequest.getId()).orElse(null);
+        ExerciseCategory exerciseCategory = exerciseCategoryRepository.findById(updateExerciseRequest.getCategoryId()).orElse(null);
+        if(exerciseToUpdate == null || exerciseCategory == null) {
+            return null;
+        }
+        exerciseToUpdate.setName(updateExerciseRequest.getName());
+        exerciseToUpdate.setExerciseCategory(exerciseCategory);
+        Exercise exercise = exerciseRepository.save(exerciseToUpdate);
         return new ExerciseResponse(exercise);
     }
 
