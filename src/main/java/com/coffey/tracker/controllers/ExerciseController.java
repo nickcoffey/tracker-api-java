@@ -6,6 +6,7 @@ import com.coffey.tracker.repositories.ExerciseCategoryRepository;
 import com.coffey.tracker.repositories.ExerciseRepository;
 import com.coffey.tracker.requests.CreateExerciseRequest;
 import com.coffey.tracker.requests.UpdateExerciseRequest;
+import com.coffey.tracker.responses.DeleteResponse;
 import com.coffey.tracker.responses.ExerciseResponse;
 import com.coffey.tracker.responses.GetAllExerciseResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,18 @@ public class ExerciseController {
         exerciseToUpdate.setExerciseCategory(exerciseCategory);
         Exercise exercise = exerciseRepository.save(exerciseToUpdate);
         return new ExerciseResponse(exercise);
+    }
+
+    @DeleteMapping
+    private DeleteResponse deleteExercise(@RequestParam String id) {
+        String message = "Error deleting exercise";
+        try {
+            exerciseRepository.deleteById(Long.parseLong(id));
+            message = "Exercise deleted";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new DeleteResponse(message);
     }
 
     @GetMapping(value = "/by-category")
