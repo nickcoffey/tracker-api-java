@@ -28,7 +28,7 @@ public class ExerciseController {
     @PostMapping
     private ExerciseResponse createExercise(@RequestBody CreateExerciseRequest createExerciseRequest) {
         Optional<ExerciseCategory> exerciseCategory = exerciseCategoryRepository.findById(createExerciseRequest.getCategoryId());
-        Exercise exercise = exerciseRepository.save(new Exercise(createExerciseRequest.getName(), exerciseCategory.orElse(null)));
+        Exercise exercise = exerciseRepository.save(new Exercise(createExerciseRequest.getName(), createExerciseRequest.getDisabled(), exerciseCategory.orElse(null)));
         return new ExerciseResponse(exercise);
     }
 
@@ -40,6 +40,7 @@ public class ExerciseController {
             return null;
         }
         exerciseToUpdate.setName(updateExerciseRequest.getName());
+        exerciseToUpdate.setDisabled(updateExerciseRequest.getDisabled());
         exerciseToUpdate.setExerciseCategory(exerciseCategory);
         Exercise exercise = exerciseRepository.save(exerciseToUpdate);
         return new ExerciseResponse(exercise);
@@ -60,14 +61,14 @@ public class ExerciseController {
     @GetMapping(value = "/by-category")
     private GetAllExerciseResponse getAllExercisesByCategory(@RequestParam String categoryId) {
         List<ExerciseResponse> exercises = new ArrayList<>();
-        exerciseRepository.findByExerciseCategoryId(Long.parseLong(categoryId)).forEach(exercise -> exercises.add(new ExerciseResponse(exercise)));
+        exerciseRepository.findByExerciseCategoryIdOrderByNameAsc(Long.parseLong(categoryId)).forEach(exercise -> exercises.add(new ExerciseResponse(exercise)));
         return new GetAllExerciseResponse(exercises);
     }
 
     @GetMapping(value = "/all")
     private GetAllExerciseResponse getAllExercises() {
         List<ExerciseResponse> exercises = new ArrayList<>();
-        exerciseRepository.findAll().forEach(exercise -> exercises.add(new ExerciseResponse(exercise)));
+        exerciseRepository.findAllByOrderByNameAsc().forEach(exercise -> exercises.add(new ExerciseResponse(exercise)));
         return new GetAllExerciseResponse(exercises);
     }
 
