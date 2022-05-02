@@ -3,6 +3,7 @@ package com.coffey.tracker.requests;
 public class UpdateExerciseRequest {
     private Long id;
     private String name;
+    private Boolean disabled;
     private Long categoryId;
 
     public Long getId() {
@@ -19,6 +20,14 @@ public class UpdateExerciseRequest {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Boolean getDisabled() {
+        return disabled;
+    }
+
+    public void setDisabled(Boolean disabled) {
+        this.disabled = disabled;
     }
 
     public Long getCategoryId() {
