@@ -8,6 +8,7 @@ import java.util.List;
 public class RoutineDetailsResponse {
     private Long id;
     private String name;
+    private Long programId;
     private List<RoutineExerciseResponse> exercises;
 
     public RoutineDetailsResponse() {
@@ -16,6 +17,7 @@ public class RoutineDetailsResponse {
     public RoutineDetailsResponse(Routine routine) {
         this.id = routine.getId();
         this.name = routine.getName();
+        this.programId = routine.getProgram().getId();
         this.exercises = new ArrayList<>();
         routine.getRoutineExercises().forEach(routineExercise -> this.exercises.add(new RoutineExerciseResponse(routineExercise)));
     }
@@ -34,6 +36,14 @@ public class RoutineDetailsResponse {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Long getProgramId() {
+        return programId;
+    }
+
+    public void setProgramId(Long programId) {
+        this.programId = programId;
     }
 
     public List<RoutineExerciseResponse> getExercises() {
